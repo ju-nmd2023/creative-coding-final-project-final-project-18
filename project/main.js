@@ -8,7 +8,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   centerX = width / 2;
   centerY = height / 2;
-  background(220);
+  background(5, 5, 25);
   colorMode(RGB, 255, 255, 255, 1);
   strokeWeight(2);
 }
@@ -25,7 +25,11 @@ function draw() {
     let x2 = centerX + radius * cos(angle + PI);
     let y2 = centerY + radius * sin(angle + PI);
 
-    stroke(random([0, 50, 80, 255]));
+    let r = map(dx, -width / 2, width / 2, 50, 255);
+    let g = map(dy, -height / 2, height / 2, 50, 255);
+    let b = map(radius, 0, sqrt(sq(width / 2) + sq(height / 2)), 80, 255);
+
+    stroke(r, g, b);
     line(x1, y1, x2, y2);
 
     if (lastX > -999) {
