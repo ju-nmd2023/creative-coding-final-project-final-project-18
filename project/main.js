@@ -1,16 +1,16 @@
 let centerX, centerY;
-let lastX = -999, lastY = -999;
+let lastX = -999,
+  lastY = -999;
 let drawing = false;
 let song;
 let songStarted = false;
 let amp;
-
 let stars = [];
 let lines = [];
 let smoothedLevel = 0;
 
 function preload() {
-  song = loadSound('assets/music/spaceymusic.mp3');
+  song = loadSound("/assets/music/spaceymusic.mp3");
 }
 
 function setup() {
