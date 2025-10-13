@@ -10,7 +10,7 @@ let lines = [];
 let smoothedLevel = 0;
 
 function preload() {
-  song = loadSound('../assets/music/spaceymusic.mp3');
+  song = loadSound('assets/music/spaceymusic.mp3');
 }
 
 function setup() {
@@ -37,7 +37,6 @@ function setup() {
 
 function draw() {
   background(0);
-
   noStroke();
 
   for (let s of stars) {
@@ -106,7 +105,7 @@ function mouseDragged() {
 
 function mousePressed() {
   if (!songStarted && song.isLoaded()) {
-    song.loop(0, 1, 0.3, 60); 
+    song.loop(0, 1, 0.3, 60);
     amp.setInput(song);
     songStarted = true;
   }
