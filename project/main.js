@@ -1,16 +1,16 @@
 let centerX, centerY;
-let lastX = -999, lastY = -999;
+let lastX = -999,
+  lastY = -999;
 let drawing = false;
 let song;
 let songStarted = false;
 let amp;
-
 let stars = [];
 let lines = [];
 let smoothedLevel = 0;
 
 function preload() {
-  song = loadSound('../assets/music/spaceymusic.mp3');
+  song = loadSound("../assets/music/spaceymusic.mp3");
 }
 
 function setup() {
@@ -106,7 +106,7 @@ function mouseDragged() {
 
 function mousePressed() {
   if (!songStarted && song.isLoaded()) {
-    song.loop(0, 1, 0.3, 60); 
+    song.loop(0, 1, 0.3, 60);
     amp.setInput(song);
     songStarted = true;
   }
