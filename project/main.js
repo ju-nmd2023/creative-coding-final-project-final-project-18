@@ -1,22 +1,28 @@
 let centerX, centerY;
-let lastX = -999,
-  lastY = -999;
+let lastX = -999, lastY = -999;
 let drawing = false;
+let song;
+let songStarted = false;
+let amp;
 
-//array to store stars
 let stars = [];
-
-//array to store drawn lines
 let lines = [];
+let smoothedLevel = 0;
+
+function preload() {
+  song = loadSound('assets/music/spaceymusic.mp3');
+}
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(windowWidth, windowHeight).parent("p5container");
   centerX = width / 2;
   centerY = height / 2;
   colorMode(RGB, 255, 255, 255, 1);
   strokeWeight(2);
 
-  //create blinking and floating stars
+  amp = new p5.Amplitude();
+
+  // skapa stjärnor
   for (let i = 0; i < 200; i++) {
     stars.push({
       x: random(width),
@@ -34,18 +40,15 @@ function draw() {
   background(0);
 
   noStroke();
-  //update and draw all stars
+  // rita stjärnor
   for (let s of stars) {
     s.x += s.speedX;
     s.y += s.speedY;
-
-    //wrap stars when they leave the screen
     if (s.x < 0) s.x = width;
     if (s.x > width) s.x = 0;
     if (s.y < 0) s.y = height;
     if (s.y > height) s.y = 0;
 
-    //star blinking effect
     s.opacity += s.blinkSpeed;
     if (s.opacity > 0.9 || s.opacity < 0.2) s.blinkSpeed *= -1;
 
@@ -53,10 +56,33 @@ function draw() {
     ellipse(s.x, s.y, s.r);
   }
 
-  //draw all saved lines
+  // rita linjer med puls
+  let pulse = 1;
+  if (songStarted) {
+    let level = amp.getLevel();
+    smoothedLevel = lerp(smoothedLevel, level, 0.05);
+    pulse = map(smoothedLevel, 0, 0.3, 0.97, 1.05);
+  }
+
   for (let l of lines) {
+    let x1p = centerX + (l.x1 - centerX) * pulse;
+    let y1p = centerY + (l.y1 - centerY) * pulse;
+    let x2p = centerX + (l.x2 - centerX) * pulse;
+    let y2p = centerY + (l.y2 - centerY) * pulse;
+
+    drawingContext.shadowBlur = map(smoothedLevel, 0, 0.3, 0, 20);
+    drawingContext.shadowColor = color(l.r, l.g, l.b);
+
     stroke(l.r, l.g, l.b);
-    line(l.x1, l.y1, l.x2, l.y2);
+    line(x1p, y1p, x2p, y2p);
+  }
+
+  // ändra hastighet på musiken när man drar
+  if (drawing && songStarted) {
+    let speed = dist(mouseX, mouseY, pmouseX, pmouseY);
+    let playbackRate = map(speed, 0, 50, 0.8, 1.3);
+    playbackRate = constrain(playbackRate, 0.8, 1.3);
+    song.rate(playbackRate);
   }
 }
 
@@ -75,7 +101,6 @@ function mouseDragged() {
   let g = map(dy, -height / 2, height / 2, 50, 255);
   let b = map(radius, 0, sqrt(sq(width / 2) + sq(height / 2)), 80, 255);
 
-  //save the line into the array
   lines.push({ x1, y1, x2, y2, r, g, b });
 
   lastX = x1;
@@ -83,6 +108,11 @@ function mouseDragged() {
 }
 
 function mousePressed() {
+  if (!songStarted && song.isLoaded()) {
+    song.loop(0, 1, 0.3, 60); // starta på 60 sekunder
+    amp.setInput(song);
+    songStarted = true;
+  }
   drawing = true;
   lastX = -999;
   lastY = -999;
