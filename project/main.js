@@ -10,7 +10,7 @@ let lines = [];
 let smoothedLevel = 0;
 
 function preload() {
-  song = loadSound("/assets/music/spaceymusic.mp3");
+  song = loadSound("assets/music/spaceymusic.mp3");
 }
 
 function setup() {
