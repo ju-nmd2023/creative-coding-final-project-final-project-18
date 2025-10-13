@@ -37,7 +37,6 @@ function setup() {
 
 function draw() {
   background(0);
-
   noStroke();
 
   for (let s of stars) {
