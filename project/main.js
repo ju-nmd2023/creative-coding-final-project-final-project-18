@@ -14,7 +14,8 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  let canvas = createCanvas(windowWidth, windowHeight);
+  canvas.parent('p5container');
   centerX = width / 2;
   centerY = height / 2;
   colorMode(RGB, 255, 255, 255, 1);
