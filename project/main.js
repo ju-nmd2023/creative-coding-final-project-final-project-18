@@ -1,5 +1,6 @@
 let centerX, centerY;
-let lastX = -999, lastY = -999;
+let lastX = -999,
+  lastY = -999;
 let drawing = false;
 let song;
 let songStarted = false;
@@ -10,7 +11,7 @@ let lines = [];
 let smoothedLevel = 0;
 
 function preload() {
-  song = loadSound('assets/music/spaceymusic.mp3');
+  song = loadSound("assets/music/spaceymusic.mp3");
 }
 
 function setup() {
@@ -59,9 +60,9 @@ function draw() {
   // rita linjer med puls
   let pulse = 1;
   if (songStarted) {
-    let level = amp.getLevel();
+    let level = amp.getLevel() * 6;
     smoothedLevel = lerp(smoothedLevel, level, 0.05);
-    pulse = map(smoothedLevel, 0, 0.3, 0.97, 1.05);
+    pulse = map(smoothedLevel, 0, 0.3, 0.95, 1.2);
   }
 
   for (let l of lines) {
