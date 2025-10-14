@@ -23,7 +23,6 @@ function setup() {
 
   amp = new p5.Amplitude();
 
-  // skapa stjärnor
   for (let i = 0; i < 200; i++) {
     stars.push({
       x: random(width),
@@ -41,7 +40,7 @@ function draw() {
   background(0);
 
   noStroke();
-  // rita stjärnor
+
   for (let s of stars) {
     s.x += s.speedX;
     s.y += s.speedY;
@@ -57,7 +56,6 @@ function draw() {
     ellipse(s.x, s.y, s.r);
   }
 
-  // rita linjer med puls
   let pulse = 1;
   if (songStarted) {
     let level = amp.getLevel() * 6;
@@ -78,7 +76,6 @@ function draw() {
     line(x1p, y1p, x2p, y2p);
   }
 
-  // ändra hastighet på musiken när man drar
   if (drawing && songStarted) {
     let speed = dist(mouseX, mouseY, pmouseX, pmouseY);
     let playbackRate = map(speed, 0, 50, 0.8, 1.3);
@@ -110,7 +107,7 @@ function mouseDragged() {
 
 function mousePressed() {
   if (!songStarted && song.isLoaded()) {
-    song.loop(0, 1, 0.3, 60); // starta på 60 sekunder
+    song.loop(0, 1, 0.3, 60);
     amp.setInput(song);
     songStarted = true;
   }
