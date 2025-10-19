@@ -1,6 +1,5 @@
 let centerX, centerY;
-let lastX = -999,
-  lastY = -999;
+let lastX = -999, lastY = -999;
 let drawing = false;
 let song;
 let songStarted = false;
